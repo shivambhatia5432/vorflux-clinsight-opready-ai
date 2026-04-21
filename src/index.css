@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-exam: #16a34a;         /* green */
+  --color-anesthesia: #ea580c;   /* orange */
+  --color-handpiece: #2563eb;    /* blue */
+  --color-bur: #9333ea;          /* purple */
+  --color-scaling: #0d9488;      /* teal */
+  --color-matrix: #92400e;       /* brown */
+  --color-bonding: #d97706;      /* amber */
+  --color-restorative: #4338ca;  /* indigo */
+  --color-surgical: #dc2626;     /* red */
+  --color-impression: #16a34a;   /* green (same as exam) */
+  --color-endo: #c2410c;         /* deep orange */
+  --color-implant: #475569;      /* steel blue */
+  --color-supply: #6b7280;       /* gray */
+
+  /* Procedure-level category colors */
+  --color-proc-diagnostic: #0284c7;     /* sky blue */
+  --color-proc-restorative: #4338ca;    /* indigo (matches instrument Restorative) */
+  --color-proc-endodontics: #c2410c;    /* deep orange (matches instrument Endo) */
+  --color-proc-oral-surgery: #dc2626;   /* red (matches instrument Surgical) */
+  --color-proc-periodontics: #0d9488;   /* teal (matches instrument Scaling) */
+  --color-proc-prosthodontics: #7c3aed; /* violet */
+  --color-proc-pediatric: #db2777;      /* pink */
+  --color-proc-implants: #475569;       /* steel blue (matches instrument Implant) */
+}
+
+:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
