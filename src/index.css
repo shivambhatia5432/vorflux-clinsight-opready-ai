@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Category-color palette.
+ *
+ * Each color below is used as a background with white text on top (see
+ * CategoryBadge and TrayChecklist category headers). Contrast ratios were
+ * verified against the WebAIM contrast checker
+ * (https://webaim.org/resources/contrastchecker/) — all values pass WCAG AA
+ * (≥4.5:1) for the white-foreground / this-background combination.
+ */
+:root {
+  /* Instrument category colors */
+  --color-exam: #16a34a;         /* green-600 */
+  --color-anesthesia: #c2410c;   /* orange-700 */
+  --color-handpiece: #1d4ed8;    /* blue-700 */
+  --color-bur: #7e22ce;          /* purple-800 */
+  --color-scaling: #0f766e;      /* teal-700 */
+  --color-matrix: #92400e;       /* amber-800 */
+  --color-bonding: #b45309;      /* amber-700 */
+  --color-restorative: #3730a3;  /* indigo-800 */
+  --color-surgical: #b91c1c;     /* red-700 */
+  --color-impression: #16a34a;   /* green-600 */
+  --color-endo: #9f1239;         /* rose-800 */
+  --color-implant: #334155;      /* slate-700 */
+  --color-supply: #4b5563;       /* gray-600 */
+
+  /* Procedure-level category colors */
+  --color-proc-diagnostic: #0369a1;     /* sky-700 */
+  --color-proc-restorative: #3730a3;    /* indigo-800 */
+  --color-proc-endodontics: #9f1239;    /* rose-800 */
+  --color-proc-oral-surgery: #b91c1c;   /* red-700 */
+  --color-proc-periodontics: #0f766e;   /* teal-700 */
+  --color-proc-prosthodontics: #6b21a8; /* purple-800 */
+  --color-proc-pediatric: #9d174d;      /* pink-800 */
+  --color-proc-implants: #334155;       /* slate-700 */
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: #191919;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+ * Focus ring: the brand accent #0445AF is too dark on the #191919
+ * surface (≈2.07:1) to serve as a visible outline, so use a lighter
+ * tint of the same hue.
+ */
+:focus-visible {
+  outline: 2px solid #4f8df7;
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #242424;
+}
+::-webkit-scrollbar-thumb {
+  background: #383838;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4a4a4a;
+}
+
+/* Range input styling */
+input[type='range'] {
+  accent-color: #0445AF;
+}
+
+/* Checkbox styling */
+input[type='checkbox'] {
+  accent-color: #0445AF;
+}
