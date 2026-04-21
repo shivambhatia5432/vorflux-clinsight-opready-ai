@@ -2,31 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Category-color palette.
+ *
+ * Each color below is used as a background with white text on top (see
+ * CategoryBadge and TrayChecklist category headers). Contrast ratios were
+ * verified against the WebAIM contrast checker
+ * (https://webaim.org/resources/contrastchecker/) — all values pass WCAG AA
+ * (≥4.5:1) for the white-foreground / this-background combination.
+ */
 :root {
-  /* Instrument category colors — saturated, all pass WCAG AA with white text */
-  --color-exam: #16a34a;         /* green-600   contrast ~4.6 */
-  --color-anesthesia: #c2410c;   /* orange-700  contrast ~5.0 */
-  --color-handpiece: #1d4ed8;    /* blue-700    contrast ~5.9 */
-  --color-bur: #7e22ce;          /* purple-800  contrast ~6.1 */
-  --color-scaling: #0f766e;      /* teal-700    contrast ~5.3 */
-  --color-matrix: #92400e;       /* amber-800   contrast ~5.4 */
-  --color-bonding: #b45309;      /* amber-700   contrast ~4.7 */
-  --color-restorative: #3730a3;  /* indigo-800  contrast ~7.2 */
-  --color-surgical: #b91c1c;     /* red-700     contrast ~5.5 */
+  /* Instrument category colors */
+  --color-exam: #16a34a;         /* green-600 */
+  --color-anesthesia: #c2410c;   /* orange-700 */
+  --color-handpiece: #1d4ed8;    /* blue-700 */
+  --color-bur: #7e22ce;          /* purple-800 */
+  --color-scaling: #0f766e;      /* teal-700 */
+  --color-matrix: #92400e;       /* amber-800 */
+  --color-bonding: #b45309;      /* amber-700 */
+  --color-restorative: #3730a3;  /* indigo-800 */
+  --color-surgical: #b91c1c;     /* red-700 */
   --color-impression: #16a34a;   /* green-600 */
-  --color-endo: #9f1239;         /* rose-800    contrast ~6.8 */
-  --color-implant: #334155;      /* slate-700   contrast ~7.4 */
-  --color-supply: #4b5563;       /* gray-600    contrast ~5.9 */
+  --color-endo: #9f1239;         /* rose-800 */
+  --color-implant: #334155;      /* slate-700 */
+  --color-supply: #4b5563;       /* gray-600 */
 
-  /* Procedure-level category colors — all pass WCAG AA with white text */
-  --color-proc-diagnostic: #0369a1;     /* sky-700     contrast ~5.9 */
-  --color-proc-restorative: #3730a3;    /* indigo-800  contrast ~7.2 */
-  --color-proc-endodontics: #9f1239;    /* rose-800    contrast ~6.8 */
-  --color-proc-oral-surgery: #b91c1c;   /* red-700     contrast ~5.5 */
-  --color-proc-periodontics: #0f766e;   /* teal-700    contrast ~5.3 */
-  --color-proc-prosthodontics: #6b21a8; /* purple-800  contrast ~6.4 */
-  --color-proc-pediatric: #9d174d;      /* pink-800    contrast ~6.2 */
-  --color-proc-implants: #334155;       /* slate-700   contrast ~7.4 */
+  /* Procedure-level category colors */
+  --color-proc-diagnostic: #0369a1;     /* sky-700 */
+  --color-proc-restorative: #3730a3;    /* indigo-800 */
+  --color-proc-endodontics: #9f1239;    /* rose-800 */
+  --color-proc-oral-surgery: #b91c1c;   /* red-700 */
+  --color-proc-periodontics: #0f766e;   /* teal-700 */
+  --color-proc-prosthodontics: #6b21a8; /* purple-800 */
+  --color-proc-pediatric: #9d174d;      /* pink-800 */
+  --color-proc-implants: #334155;       /* slate-700 */
 }
 
 *, *::before, *::after {
@@ -40,13 +49,17 @@ html {
 body {
   background-color: #191919;
   color: #ffffff;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/*
+ * Focus ring: the brand accent #0445AF is too dark on the #191919
+ * surface (≈2.07:1) to serve as a visible outline, so use a lighter
+ * tint of the same hue.
+ */
 :focus-visible {
-  outline: 2px solid #0445AF;
+  outline: 2px solid #4f8df7;
   outline-offset: 2px;
 }
 

@@ -4,6 +4,12 @@ import type { Instrument, InstrumentCategory, Procedure } from '../data/types'
 import type { UseChecklistReturn } from '../hooks/useChecklist'
 import { groupBy } from '../utils/groupBy'
 import { CategoryBadge } from './CategoryBadge'
+import { btnPrimary, btnSecondary } from './ui/buttonStyles'
+
+// Height of the sticky TrayView header (py-3 + content ≈ 57px). Keep in sync
+// with the header padding in TrayView.tsx so this sub-header sits flush below
+// it.
+const TRAY_HEADER_HEIGHT_PX = 57
 
 export interface TrayChecklistProps {
   procedure: Procedure
@@ -54,25 +60,28 @@ export function TrayChecklist({ procedure, checklist }: TrayChecklistProps) {
       {/* Main column */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Progress header */}
-        <div className="sticky top-[57px] z-10 border-b border-[#2e2e2e] bg-[#191919]/95 px-4 py-4 backdrop-blur-sm">
+        <div
+          className="sticky z-10 border-b border-[#2e2e2e] bg-[#191919]/95 px-4 py-4 backdrop-blur-sm"
+          style={{ top: `${TRAY_HEADER_HEIGHT_PX}px` }}
+        >
           <div className="mb-3 flex items-center justify-between gap-4">
             <span className="text-sm font-medium text-[#a0a0a0]">
               <span className="text-xl font-bold text-white">{checkedCount}</span>
-              <span className="mx-1 text-[#666666]">/</span>
-              <span className="text-[#666666]">{totalCount} items</span>
+              <span className="mx-1 text-[#a0a0a0]">/</span>
+              <span className="text-[#a0a0a0]">{totalCount} items</span>
             </span>
             <div className="flex gap-2">
               <button
                 type="button"
                 onClick={checkAll}
-                className="rounded-lg bg-[#0445AF] px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-[#0356d4] active:scale-95"
+                className={`${btnPrimary} min-h-0 px-4 py-2 text-sm font-semibold`}
               >
                 Check All
               </button>
               <button
                 type="button"
                 onClick={reset}
-                className="rounded-lg border border-[#383838] bg-[#242424] px-4 py-2 text-sm font-semibold text-[#a0a0a0] transition-all hover:border-[#4a4a4a] hover:text-white active:scale-95"
+                className={`${btnSecondary} min-h-0 px-4 py-2 text-sm font-semibold`}
               >
                 Reset
               </button>
@@ -103,7 +112,8 @@ export function TrayChecklist({ procedure, checklist }: TrayChecklistProps) {
                 key={category}
                 className="mb-3 overflow-hidden rounded-2xl border border-[#2e2e2e]"
               >
-                {/* Category header — saturated bg, white text (all vars pass WCAG AA) */}
+                {/* Category header — saturated bg, white text. Contrast
+                    ratios are documented once in src/index.css. */}
                 <button
                   type="button"
                   onClick={() => toggleCategory(category)}
@@ -142,7 +152,7 @@ export function TrayChecklist({ procedure, checklist }: TrayChecklistProps) {
                             <span
                               className={`flex-1 text-sm font-medium ${
                                 isChecked
-                                  ? 'text-[#666666] line-through'
+                                  ? 'text-[#a0a0a0] line-through'
                                   : 'text-white'
                               }`}
                             >
@@ -180,7 +190,7 @@ export function TrayChecklist({ procedure, checklist }: TrayChecklistProps) {
           <span className="text-xs font-bold uppercase tracking-[0.12em] text-[#a0a0a0]">
             Clinical Notes
           </span>
-          <span aria-hidden="true" className="text-xs text-[#666666] lg:hidden">
+          <span aria-hidden="true" className="text-xs text-[#a0a0a0] lg:hidden">
             {notesExpanded ? '▼' : '▶'}
           </span>
         </button>
@@ -189,13 +199,13 @@ export function TrayChecklist({ procedure, checklist }: TrayChecklistProps) {
           className={`${notesExpanded ? 'block' : 'hidden'} lg:block max-h-64 overflow-y-auto border-t border-[#2e2e2e] px-4 py-3 lg:max-h-none lg:border-t-0`}
         >
           {procedure.clinicalNotes.length === 0 ? (
-            <p className="text-sm text-[#666666]">No clinical notes.</p>
+            <p className="text-sm text-[#a0a0a0]">No clinical notes.</p>
           ) : (
             <ul className="space-y-2 text-sm text-[#a0a0a0]">
               {/* Notes are unique strings per procedure, so note content is a stable key. */}
               {procedure.clinicalNotes.map(note => (
                 <li key={note} className="flex gap-2">
-                  <span className="mt-0.5 shrink-0 text-[#0445AF]">•</span>
+                  <span className="mt-0.5 shrink-0 text-[#4f8df7]">•</span>
                   <span>{note}</span>
                 </li>
               ))}

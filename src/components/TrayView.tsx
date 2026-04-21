@@ -13,10 +13,13 @@ export interface TrayViewProps {
 
 type TabKey = 'checklist' | 'voice' | 'docs'
 
-const TABS: readonly { key: TabKey; label: string; icon: string }[] = [
-  { key: 'checklist', label: 'Checklist', icon: '✓' },
-  { key: 'voice', label: 'Voice', icon: '◉' },
-  { key: 'docs', label: 'Docs', icon: '≡' },
+// `glyph` is a unicode character used as a lightweight icon. When a proper
+// icon set is introduced (e.g. lucide-react), replace this with an icon
+// component.
+const TABS: readonly { key: TabKey; label: string; glyph: string }[] = [
+  { key: 'checklist', label: 'Checklist', glyph: '✓' },
+  { key: 'voice', label: 'Voice', glyph: '◉' },
+  { key: 'docs', label: 'Docs', glyph: '≡' },
 ]
 
 export function TrayView({ procedureId, onBack }: TrayViewProps) {
@@ -36,7 +39,7 @@ export function TrayView({ procedureId, onBack }: TrayViewProps) {
           type="button"
           onClick={onBack}
           aria-label="Back to procedures"
-          className="min-h-[48px] text-[#0445AF] hover:text-white transition-colors"
+          className="min-h-[48px] text-[#a0a0a0] transition-colors hover:text-white"
         >
           ← Back
         </button>
@@ -85,26 +88,28 @@ export function TrayView({ procedureId, onBack }: TrayViewProps) {
               role="tab"
               aria-selected={isActive}
               onClick={() => setActiveTab(tab.key)}
-              className={`flex min-h-[52px] flex-1 flex-col items-center justify-center gap-0.5 px-3 text-xs font-semibold transition-all duration-200 lg:flex-row lg:gap-2 lg:text-sm ${
+              // `relative` scopes the active-indicator <span> below to this
+              // button rather than to the nav, so the underline sits under
+              // the selected tab on mobile instead of spanning the whole bar.
+              className={`relative flex min-h-[52px] flex-1 flex-col items-center justify-center gap-0.5 px-3 text-xs font-semibold transition-all duration-200 lg:flex-row lg:gap-2 lg:text-sm ${
                 isActive
                   ? 'text-white'
-                  : 'text-[#666666] hover:text-[#a0a0a0]'
+                  : 'text-[#a0a0a0] hover:text-white'
               }`}
             >
-              <span className={`text-base lg:text-sm ${isActive ? 'text-[#0445AF]' : ''}`}>
-                {tab.icon}
+              <span className={`text-base lg:text-sm ${isActive ? 'text-[#4f8df7]' : ''}`}>
+                {tab.glyph}
               </span>
               <span>{tab.label}</span>
               {isActive && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0445AF] lg:hidden" />
+                <span
+                  aria-hidden="true"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#4f8df7] lg:hidden"
+                />
               )}
             </button>
           )
         })}
-        {/* Active indicator line for desktop */}
-        <style>{`
-          nav[role="tablist"] { position: relative; }
-        `}</style>
       </nav>
 
       {/* Content area.
@@ -114,6 +119,8 @@ export function TrayView({ procedureId, onBack }: TrayViewProps) {
       <main className="flex-1 pb-20 lg:pb-0">
         <div
           role="tabpanel"
+          // lg:gap-0 is intentional — the right-hand aside uses `lg:border-l`
+          // to form a flush seam with the checklist column.
           className={activeTab === 'checklist' ? 'block lg:grid lg:grid-cols-2 lg:gap-0' : 'hidden'}
         >
           <TrayChecklist procedure={procedure} checklist={checklist} />
