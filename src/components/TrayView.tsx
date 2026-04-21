@@ -13,10 +13,10 @@ export interface TrayViewProps {
 
 type TabKey = 'checklist' | 'voice' | 'docs'
 
-const TABS: readonly { key: TabKey; label: string }[] = [
-  { key: 'checklist', label: '✓ Checklist' },
-  { key: 'voice', label: '🔊 Voice' },
-  { key: 'docs', label: '📋 Docs' },
+const TABS: readonly { key: TabKey; label: string; icon: string }[] = [
+  { key: 'checklist', label: 'Checklist', icon: '✓' },
+  { key: 'voice', label: 'Voice', icon: '◉' },
+  { key: 'docs', label: 'Docs', icon: '≡' },
 ]
 
 export function TrayView({ procedureId, onBack }: TrayViewProps) {
@@ -31,37 +31,38 @@ export function TrayView({ procedureId, onBack }: TrayViewProps) {
 
   if (!procedure) {
     return (
-      <div className="min-h-screen bg-white p-4">
+      <div className="min-h-screen bg-[#191919] p-6">
         <button
           type="button"
           onClick={onBack}
           aria-label="Back to procedures"
-          className="min-h-[48px] text-blue-600 hover:underline"
+          className="min-h-[48px] text-[#0445AF] hover:text-white transition-colors"
         >
           ← Back
         </button>
-        <p className="mt-4 text-gray-700">Procedure not found.</p>
+        <p className="mt-4 text-[#a0a0a0]">Procedure not found.</p>
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex min-h-screen flex-col bg-[#191919]">
       {/* Sticky top header */}
-      <header className="sticky top-0 z-10 flex items-center gap-3 border-b border-gray-200 bg-white px-4 py-2">
+      <header className="sticky top-0 z-10 flex items-center gap-4 border-b border-[#2e2e2e] bg-[#191919]/95 px-4 py-3 backdrop-blur-sm">
         <button
           type="button"
           onClick={onBack}
           aria-label="Back to procedures"
-          className="min-h-[48px] shrink-0 text-blue-600 hover:underline"
+          className="flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-[#a0a0a0] transition-colors hover:text-white"
         >
-          ← Back
+          <span className="text-base">←</span>
+          <span className="hidden sm:inline">Back</span>
         </button>
-        <div className="flex min-w-0 flex-1 items-baseline justify-end gap-2">
-          <h1 className="truncate text-base font-semibold text-gray-900 lg:text-lg">
+        <div className="flex min-w-0 flex-1 items-baseline gap-2">
+          <h1 className="truncate text-base font-bold text-white lg:text-lg">
             {procedure.name}
           </h1>
-          <span className="shrink-0 text-sm text-gray-500">
+          <span className="shrink-0 rounded-md bg-[#2e2e2e] px-2 py-0.5 text-xs font-medium text-[#a0a0a0]">
             {procedure.cdtCode}
           </span>
         </div>
@@ -73,7 +74,7 @@ export function TrayView({ procedureId, onBack }: TrayViewProps) {
       <nav
         role="tablist"
         aria-label="Tray view sections"
-        className="fixed bottom-0 left-0 right-0 z-30 flex border-t border-gray-200 bg-white lg:static lg:bottom-auto lg:border-b"
+        className="fixed bottom-0 left-0 right-0 z-30 flex border-t border-[#2e2e2e] bg-[#191919]/95 backdrop-blur-sm lg:static lg:bottom-auto lg:border-b lg:border-t-0"
       >
         {TABS.map(tab => {
           const isActive = activeTab === tab.key
@@ -84,16 +85,26 @@ export function TrayView({ procedureId, onBack }: TrayViewProps) {
               role="tab"
               aria-selected={isActive}
               onClick={() => setActiveTab(tab.key)}
-              className={`flex min-h-[48px] flex-1 items-center justify-center border-t-2 bg-white px-3 text-sm font-medium transition-colors ${
+              className={`flex min-h-[52px] flex-1 flex-col items-center justify-center gap-0.5 px-3 text-xs font-semibold transition-all duration-200 lg:flex-row lg:gap-2 lg:text-sm ${
                 isActive
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  ? 'text-white'
+                  : 'text-[#666666] hover:text-[#a0a0a0]'
               }`}
             >
-              {tab.label}
+              <span className={`text-base lg:text-sm ${isActive ? 'text-[#0445AF]' : ''}`}>
+                {tab.icon}
+              </span>
+              <span>{tab.label}</span>
+              {isActive && (
+                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#0445AF] lg:hidden" />
+              )}
             </button>
           )
         })}
+        {/* Active indicator line for desktop */}
+        <style>{`
+          nav[role="tablist"] { position: relative; }
+        `}</style>
       </nav>
 
       {/* Content area.
@@ -103,7 +114,7 @@ export function TrayView({ procedureId, onBack }: TrayViewProps) {
       <main className="flex-1 pb-20 lg:pb-0">
         <div
           role="tabpanel"
-          className={activeTab === 'checklist' ? 'block lg:grid lg:grid-cols-2 lg:gap-4' : 'hidden'}
+          className={activeTab === 'checklist' ? 'block lg:grid lg:grid-cols-2 lg:gap-0' : 'hidden'}
         >
           <TrayChecklist procedure={procedure} checklist={checklist} />
           <div className="hidden lg:block">
@@ -111,13 +122,13 @@ export function TrayView({ procedureId, onBack }: TrayViewProps) {
           </div>
         </div>
         {activeTab === 'voice' && (
-          <div role="tabpanel" className="px-4 py-3">
+          <div role="tabpanel" className="px-4 py-5">
             <VoiceCallout procedure={procedure} />
           </div>
         )}
         <div
           role="tabpanel"
-          className={`${activeTab === 'docs' ? 'block' : 'hidden'} px-4 py-3`}
+          className={`${activeTab === 'docs' ? 'block' : 'hidden'} px-4 py-5`}
         >
           <DocTemplate procedure={procedure} docTemplate={docTemplate} />
         </div>

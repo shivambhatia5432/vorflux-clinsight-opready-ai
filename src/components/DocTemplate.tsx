@@ -34,53 +34,56 @@ export function DocTemplate({ procedure, docTemplate }: DocTemplateProps) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-2">
-        <h2 className="font-semibold text-gray-900">{procedure.name}</h2>
-        <span className="inline-block rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-700">
+    <div className="flex flex-col gap-5">
+      {/* Header */}
+      <div>
+        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#666666]">
+          Documentation Template
+        </p>
+        <h2 className="text-xl font-bold text-white">{procedure.name}</h2>
+        <span className="mt-1 inline-block rounded-md bg-[#2e2e2e] px-2 py-0.5 text-xs font-medium text-[#a0a0a0]">
           {procedure.cdtCode}
         </span>
       </div>
-      <p className="text-sm text-gray-500">Clinical Documentation Template</p>
 
+      {/* Textarea */}
       <textarea
         ref={textareaRef}
         value={text}
         onChange={handleChange}
         aria-label="Clinical documentation template"
         placeholder="Template will appear here..."
-        className="w-full min-h-[300px] rounded border border-gray-300 p-3 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full min-h-[300px] resize-none rounded-2xl border border-[#2e2e2e] bg-[#242424] p-4 font-mono text-[#a0a0a0] transition-colors focus:border-[#0445AF]/50 focus:bg-[#2a2a2a] focus:outline-none focus:ring-2 focus:ring-[#0445AF]/30"
         // 16px prevents iOS Safari from auto-zooming on focus; Tailwind's
         // text-sm (14px) would trigger the zoom behavior.
-        style={{ fontSize: '16px' }}
+        style={{ fontSize: '16px', lineHeight: '1.6' }}
       />
 
-      <div className="flex flex-wrap gap-2">
+      {/* Actions */}
+      <div className="flex flex-wrap gap-3">
         <button
           type="button"
-          onClick={() => {
-            void copyToClipboard()
-          }}
-          className="min-h-[48px] rounded bg-blue-600 px-4 font-medium text-white transition-colors hover:bg-blue-700"
+          onClick={() => { void copyToClipboard() }}
+          className="min-h-[48px] rounded-xl bg-[#0445AF] px-6 text-sm font-bold text-white transition-all hover:bg-[#0356d4] active:scale-95"
         >
           Copy to Clipboard
         </button>
         <button
           type="button"
           onClick={reset}
-          className="min-h-[48px] px-4 rounded border border-gray-300 bg-white font-medium text-gray-700 hover:bg-gray-50"
+          className="min-h-[48px] rounded-xl border border-[#383838] bg-[#242424] px-6 text-sm font-bold text-[#a0a0a0] transition-all hover:border-[#4a4a4a] hover:text-white active:scale-95"
         >
           Reset Template
         </button>
       </div>
 
       {copyError && (
-        <p className="text-sm text-red-600" role="alert">
+        <p className="text-sm text-red-400" role="alert">
           {copyError}
         </p>
       )}
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-[#4a4a4a]">
         Fill in ___ fields and select from option1/option2 choices before copying.
       </p>
 

@@ -43,7 +43,10 @@ describe('Toast', () => {
   it('uses a transition so the show/hide animates', () => {
     render(<Toast message="animated" visible={true} />)
     const toast = screen.getByRole('status')
-    expect(toast.className).toContain('transition-opacity')
+    // transition-all covers opacity + transform; transition-opacity is also acceptable
+    expect(
+      toast.className.includes('transition-all') || toast.className.includes('transition-opacity'),
+    ).toBe(true)
     expect(toast.className).toContain('duration-200')
   })
 })

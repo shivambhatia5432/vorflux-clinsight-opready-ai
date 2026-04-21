@@ -19,7 +19,7 @@ export function CategoryBadge({ category, className = '' }: CategoryBadgeProps) 
     DEFAULT_CATEGORY_COLOR
   return (
     <span
-      className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium text-white ${className}`}
+      className={`inline-block shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold text-white ${className}`}
       style={{ backgroundColor }}
     >
       {category}

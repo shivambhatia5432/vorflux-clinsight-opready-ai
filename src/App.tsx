@@ -15,7 +15,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-[#191919]">
       <ProcedureSelector onSelect={setSelectedId} />
     </div>
   )
